@@ -50,8 +50,8 @@ RUN apt-get install -y --allow-unauthenticated \
 			libyajl-dev \
 			libzookeeper-mt-dev \
 			libzookeeper-mt2 \
+			llvm-4.0 \
 			memcached \
-			musl musl-dev musl-tools \
 			netcat \
 			net-tools \
 			openssl \
@@ -153,19 +153,20 @@ RUN echo "**** tcllib" && cd /root/git/tcllib && \
 	make install && \
 	sed --in-place -e 's/tclsh8.5/tclsh/' /usr/bin/critcl && \
 	make critcl && \
-	rsync -a modules/tcllibc /usr/share/tcltk
-
-RUN echo "**** cassandra cpp-driver (C driver)" && cd /root/git/cpp-driver && \
+	rsync -a modules/tcllibc /usr/share/tcltk && \
+	echo "**** cassandra cpp-driver (C driver)" && cd /root/git/cpp-driver && \
 	mkdir build && cd build && cmake .. && make && make install && \
-	ldconfig /usr/local/lib/x86_64-linux-gnu
-
-RUN echo "**** Pgtcl" && cd /usr/local/flightaware/src/Pgtcl && ./configure && make && make install
-
-RUN echo "**** casstcl" && cd /usr/local/flightaware/src/casstcl && \
+	ldconfig /usr/local/lib/x86_64-linux-gnu && \
+	cd /root/git/llvmtcl && \
+	mkdir -p config && autoreconf -iv && \
+	./configure --with-llvm-config=/usr/lib/llvm-4.0/bin/llvm-config && \
+	make && make install && \
+	echo "**** Pgtcl" && cd /usr/local/flightaware/src/Pgtcl && \
+	./configure && make && make install && \
+	echo "**** casstcl" && cd /usr/local/flightaware/src/casstcl && \
 	autoreconf && ./configure --libdir=/usr/local/lib/x86_64-linux-gnu && make && make install && \
-	ldconfig /usr/local/lib/x86_64-linux-gnu
-
-RUN echo "**** tclbsd" && cd /usr/local/flightaware/src/tclbsd && \
+	ldconfig /usr/local/lib/x86_64-linux-gnu && \
+	echo "**** tclbsd" && cd /usr/local/flightaware/src/tclbsd && \
 	autoreconf && ./configure && make && make install && \
 	echo "**** yajl-tcl" && cd /usr/local/flightaware/src/yajl-tcl && \
 	autoreconf && ./configure && make && make install && \
@@ -174,9 +175,8 @@ RUN echo "**** tclbsd" && cd /usr/local/flightaware/src/tclbsd && \
 	echo "zookeepertcl" && cd /usr/local/flightaware/src/zookeepertcl && \
 	autoreconf && ./configure && make && make install && \
 	echo "socketserver" && cd /usr/local/flightaware/src/socketservertcl && \
-	autoreconf && ./configure && make && make install
-
-RUN echo "**** tcllauncher & speedbag & speedtables" && cd /usr/local/flightaware/src/tcllauncher && \
+	autoreconf && ./configure && make && make install && \
+	echo "**** tcllauncher & speedbag & speedtables" && cd /usr/local/flightaware/src/tcllauncher && \
 	autoreconf && ./configure && make && make install && \
 	cp /usr/bin/tcllauncher /usr/local/bin/ && \
 	cd /usr/local/flightaware/src/speedbag && \
