@@ -1,0 +1,21 @@
+diff --git a/mapscript/tcl/CMakeLists.txt b/mapscript/tcl/CMakeLists.txt
+index 8def7ad..def5b61 100644
+--- a/mapscript/tcl/CMakeLists.txt
++++ b/mapscript/tcl/CMakeLists.txt
+@@ -13,6 +13,7 @@ include_directories(${PROJECT_SOURCE_DIR}/build)
+ include_directories(${PROJECT_SOURCE_DIR}/mapscript/swiginc)
+ include_directories(${PROJECT_SOURCE_DIR}/mapscript/)
+ include_directories(${PROJECT_SOURCE_DIR}/mapscript/tcl)
++include_directories(/usr/include/gdal)
+ 
+ set(CMAKE_SWIG_FLAGS "")
+ 
+@@ -45,7 +46,7 @@ find_path(TCL_INCLUDE_PATH tcl.h
+ 
+ find_library(MAPSERVER_LIBRARY names mapserver PATHS /usr/lib /usr/local/lib)
+ 
+-find_library(TCLGD_LIBRARY names tclgd PATHS /usr/local/lib/tclgd1.2)
++find_library(TCLGD_LIBRARY names tclgd1.2 PATHS /usr/local/lib/tclgd1.2 /usr/lib/tclgd1.2)
+ #set(TCLGD_LIBRARY "/usr/local/lib/tclgd1.2/libtclgd.so.1")
+ 
+ # we want our mapscript commands in a namespace, not massively polluting

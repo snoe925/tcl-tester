@@ -1,0 +1,12 @@
+diff --git a/mapscript/tclplug/CMakeLists.txt b/mapscript/tclplug/CMakeLists.txt
+index 242c983..9dfa2bd 100644
+--- a/mapscript/tclplug/CMakeLists.txt
++++ b/mapscript/tclplug/CMakeLists.txt
+@@ -17,6 +17,7 @@ include_directories(${PROJECT_SOURCE_DIR}/mapscript/swiginc)
+ include_directories(${PROJECT_SOURCE_DIR}/mapscript/)
+ include_directories(${PROJECT_SOURCE_DIR}/mapscript/tcl)
+ include_directories(${PROJECT_BINARY_DIR})
++include_directories(/usr/include/gdal)
+ 
+ find_package(GD)
+ include_directories(${GD_INCLUDE_DIR})
